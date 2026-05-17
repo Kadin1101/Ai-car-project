@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI 自走車 - 自動駕駛控制台</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <h1>AI CAR PROJECT &mdash; 自動循線與手動駕駛控制台</h1>
+            <p>可切換手動 / 自動模式，調整速度與 PID，同步顯示 YOLO 物件偵測與紅燈狀態。</p>
+        </div>
+    </header>
+
+    <main class="container">
+
+        <div class="left-panel">
+
+            <section class="card video-section">
+                <div class="card-header">
+                    <h2>即時畫面</h2>
+                    <span class="badge">YOLO Enabled</span>
+                </div>
+                <img src="{{ url_for('video_feed') }}" alt="Video Stream" class="video-stream">
+            </section>
+
+            <section class="card video-section" style="margin-top: 1rem;">
+                <div class="card-header">
+                    <h2>黑白除錯畫面 (鳥瞰視角)</h2>
+                    <span class="badge" style="background: var(--warning-color);">DEBUG</span>
+                </div>
+                <!-- ★ 這裡就是呼叫黑白除錯影像的路由 -->
+                <img src="{{ url_for('video_feed_debug') }}" alt="Debug Stream" class="video-stream" style="border: 2px solid var(--warning-color);">
+            </section>
+
+
+            <section class="status-grid">
+                <div class="status-card">
+                    <span class="status-label">AI 模式</span>
+                    <strong id="ai-mode-text">手動模式</strong>
+                </div>
+                <div class="status-card">
+                    <span class="status-label">車道偏移 Error (px)</span>
+                    <strong id="lane-error-text">0</strong>
+                </div>
+                <div class="status-card">
+                    <span class="status-label">PID 轉向輸出</span>
+                    <strong id="steering-text">0.00</strong>
+                </div>
+                <div class="status-card">
+                    <span class="status-label">紅燈狀態</span>
+                    <strong id="red-light-text" class="safe">CLEAR</strong>
+                </div>
+                <div class="status-card">
+                    <span class="status-label">YOLO 辨識物件</span>
+                    <strong id="yolo-objs-text">No objects</strong>
+                </div>
+                <div class="status-card">
+                    <span class="status-label">目前車速設定</span>
+                    <strong id="speed-display-text">20</strong>
+                </div>
+                
+            </section>
+        </div>
+
+        <div class="right-panel">
+
+            <section class="card">
+                <h2>模式設定</h2>
+                <div class="toggle-group">
+                    <button id="btn-manual" class="toggle-btn active" onclick="setMode('manual')">手動駕駛</button>
+                    <button id="btn-auto" class="toggle-btn" onclick="setMode('auto')">自動駕駛</button>
+                </div>
+            </section>
+
+            <section class="card">
+                <h2>車速設定</h2>
+                <div class="form-group">
+                    <label>基礎車速：<span id="speed-label">20</span> / 80</label>
+                    <input type="range" id="speed-slider" min="0" max="80" value="20"
+                           oninput="onSpeedInput(this.value)"
+                           onchange="applySpeed(this.value)">
+                </div>
+            </section>
+
+            <section class="card">
+                <h2>循線參數 (PID)</h2>
+                <div id="pid-alert" class="alert hidden">✅ 套用成功</div>
+                <div class="form-group">
+                    <label>Kp（比例 — 立即修正）</label>
+                    <input type="number" step="0.01" id="input-kp" value="0.35">
+                </div>
+                <div class="form-group">
+                    <label>Ki（積分 — 消除誤差）</label>
+                    <input type="number" step="0.01" id="input-ki" value="0.00">
+                </div>
+                <div class="form-group">
+                    <label>Kd（微分 — 抑制震盪）</label>
+                    <input type="number" step="0.01" id="input-kd" value="0.18">
+                </div>
+                <button class="btn-primary" onclick="applyPID()">套用 PID 設定</button>
+            </section>
+
+            <section class="card">
+                <h2>手動控制</h2>
+                <div class="d-pad">
+                    <div></div>
+                    <button class="btn-dir"
+                            onmousedown="startCmd('forward')" onmouseup="stopCmd()"
+                            ontouchstart="startCmd('forward')" ontouchend="stopCmd()">
+                        ▲ 前進
+                    </button>
+                    <div></div>
+
+                    <button class="btn-dir"
+                            onmousedown="startCmd('left')" onmouseup="stopCmd()"
+                            ontouchstart="startCmd('left')" ontouchend="stopCmd()">
+                        ◀ 左轉
+                    </button>
+                    <button class="btn-stop" onclick="stopCmd()">⏹ 停止</button>
+                    <button class="btn-dir"
+                            onmousedown="startCmd('right')" onmouseup="stopCmd()"
+                            ontouchstart="startCmd('right')" ontouchend="stopCmd()">
+                        ▶ 右轉
+                    </button>
+
+                    <div></div>
+                    <button class="btn-dir"
+                            onmousedown="startCmd('backward')" onmouseup="stopCmd()"
+                            ontouchstart="startCmd('backward')" ontouchend="stopCmd()">
+                        ▼ 後退
+                    </button>
+                    <div></div>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>

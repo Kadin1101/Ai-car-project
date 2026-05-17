@@ -1,0 +1,249 @@
+/* style.css */
+:root {
+    --bg-color:      #f4ece1;
+    --card-bg:       #ffffff;
+    --text-main:     #333333;
+    --primary-color: #d98236;
+    --danger-color:  #d9534f;
+    --safe-color:    #28a745;
+    --border-radius: 12px;
+}
+
+/* ── Reset & Base ─────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-main);
+}
+
+/* ── Header ───────────────────────────────────────────────────────── */
+.header {
+    background: var(--card-bg);
+    padding: 18px 24px;
+    box-shadow: 0 2px 10px rgba(0,0,0,.06);
+    margin-bottom: 20px;
+}
+.header h1 {
+    margin: 0;
+    font-size: 22px;
+    color: var(--primary-color);
+    line-height: 1.3;
+}
+.header p {
+    margin: 6px 0 0;
+    color: #777;
+    font-size: 13px;
+}
+
+/* ── Layout ───────────────────────────────────────────────────────── */
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 20px 30px;
+}
+.left-panel  { flex: 2; min-width: 600px; }
+.right-panel { flex: 1; min-width: 340px; display: flex; flex-direction: column; gap: 18px; }
+
+/* ── Card ─────────────────────────────────────────────────────────── */
+.card {
+    background: var(--card-bg);
+    border-radius: var(--border-radius);
+    padding: 20px;
+    box-shadow: 0 4px 15px rgba(0,0,0,.06);
+}
+.card h2 {
+    margin: 0 0 14px;
+    font-size: 16px;
+    border-bottom: 2px solid #eee;
+    padding-bottom: 10px;
+}
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+.card-header h2 { margin: 0; border: none; padding: 0; }
+
+/* ── Badge ────────────────────────────────────────────────────────── */
+.badge {
+    background: #fdf0e3;
+    color: var(--primary-color);
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-weight: bold;
+    font-size: 11px;
+}
+
+/* ── Video ────────────────────────────────────────────────────────── */
+.video-stream {
+    width: 100%;
+    border-radius: 8px;
+    border: 2px solid #ddd;
+    background: #000;
+    display: block;
+}
+
+/* ── Status Grid ──────────────────────────────────────────────────── */
+.status-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-top: 16px;
+}
+.status-card {
+    background: var(--card-bg);
+    padding: 14px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,.05);
+    display: flex;
+    flex-direction: column;
+}
+.status-label {
+    font-size: 11px;
+    color: #999;
+    margin-bottom: 5px;
+    text-transform: uppercase;
+    letter-spacing: .4px;
+}
+.status-card strong { font-size: 15px; }
+
+.danger { color: var(--danger-color); }
+.safe   { color: var(--safe-color);   }
+
+/* ── Toggle Buttons ───────────────────────────────────────────────── */
+.toggle-group  { display: flex; gap: 10px; }
+.toggle-btn {
+    flex: 1;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    font-size: 14px;
+    cursor: pointer;
+    background: #eee;
+    color: #666;
+    transition: background .25s, color .25s;
+}
+.toggle-btn.active { background: var(--primary-color); color: #fff; }
+
+/* ── Form ─────────────────────────────────────────────────────────── */
+.form-group { margin-bottom: 14px; }
+.form-group label {
+    display: block;
+    font-size: 12px;
+    color: #666;
+    margin-bottom: 6px;
+}
+.form-group input[type="number"] {
+    width: 100%;
+    padding: 9px 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 14px;
+}
+
+/* ── Speed Slider ─────────────────────────────────────────────────── */
+input[type="range"] {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 6px;
+    border-radius: 3px;
+    background: #ddd;
+    outline: none;
+    margin-top: 8px;
+}
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--primary-color);
+    cursor: pointer;
+    box-shadow: 0 1px 4px rgba(0,0,0,.25);
+}
+
+/* ── Primary Button ───────────────────────────────────────────────── */
+.btn-primary {
+    width: 100%;
+    padding: 12px;
+    background: var(--primary-color);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    font-size: 14px;
+    cursor: pointer;
+    transition: opacity .2s;
+}
+.btn-primary:active { opacity: .8; }
+
+/* ── Alert ────────────────────────────────────────────────────────── */
+.alert {
+    background: #e2f3e5;
+    color: #1e7e34;
+    padding: 10px;
+    border-radius: 6px;
+    font-size: 13px;
+    margin-bottom: 14px;
+    text-align: center;
+}
+.hidden { display: none; }
+
+/* ── D-Pad ────────────────────────────────────────────────────────── */
+.d-pad {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    justify-items: center;
+    margin-top: 10px;
+}
+.btn-dir {
+    width: 82px;
+    height: 82px;
+    background: #f8f9fa;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    font-weight: bold;
+    font-size: 13px;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0,0,0,.08);
+    transition: background .1s, transform .1s;
+    /* 加入完整的觸控優化 */
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+}
+
+.btn-dir:active {
+    background: #e2e6ea;
+    transform: scale(.94);
+}
+.btn-stop {
+    width: 82px;
+    height: 82px;
+    background: #ffdddd;
+    color: var(--danger-color);
+    border: none;
+    border-radius: 12px;
+    font-weight: bold;
+    font-size: 13px;
+    cursor: pointer;
+    user-select: none; /* 防止文字被選取 */
+    -webkit-user-select: none;
+    touch-action: manipulation; /* 停用點兩下放大，提升觸控反應速度 */
+}
+.btn-stop:active { background: #ffbbbb; }
+
+/* ── Responsive ───────────────────────────────────────────────────── */
+@media (max-width: 768px) {
+    .status-grid { grid-template-columns: 1fr 1fr; }
+    .left-panel, .right-panel { min-width: 100%; flex: unset; }
+}
