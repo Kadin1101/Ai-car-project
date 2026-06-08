@@ -64,6 +64,12 @@ function applySpeed(val) {
     fetch('/set_speed', { method: 'POST', body: fd });
 }
 
+function applyColor(val) {
+    const fd = new URLSearchParams();
+    fd.append('color', val);
+    fetch('/set_color', { method: 'POST', body: fd });
+}
+
 // ── 4. PID 套用 ──────────────────────────────────────────────────────
 function applyPID() {
     const fd = new URLSearchParams();
@@ -132,9 +138,44 @@ function updateStatus() {
                 ? data.yolo_objects.join(', ')
                 : "No objects";
             document.getElementById('yolo-objs-text').innerText = objText;
+
+            // 6. 更新車道線顏色選擇器
+            const colorSelect = document.getElementById('lane-color-select');
+            if (colorSelect && data.lane_color && colorSelect.value !== data.lane_color) {
+                colorSelect.value = data.lane_color;
+            }
         })
         .catch(err => console.error("抓取狀態失敗:", err));
 }
 
 // 每 200 毫秒更新一次網頁資訊
 setInterval(updateStatus, 200);
+
+// ── 6. 鍵盤 WASD 控制 ──────────────────────────────────────────────
+const keyMap = {
+    'w': 'forward',
+    'a': 'left',
+    's': 'backward',
+    'd': 'right'
+};
+
+let activeKey = null;
+
+document.addEventListener('keydown', (e) => {
+    // 避免在輸入框 (例如 PID 設定) 內打字時觸發車輛移動
+    if (e.target.tagName === 'INPUT') return;
+    
+    const key = e.key.toLowerCase();
+    if (keyMap[key] && activeKey !== key) {
+        activeKey = key;
+        startCmd(keyMap[key]);
+    }
+});
+
+document.addEventListener('keyup', (e) => {
+    const key = e.key.toLowerCase();
+    if (key === activeKey) {
+        activeKey = null;
+        stopCmd();
+    }
+});
