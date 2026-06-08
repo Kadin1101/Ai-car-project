@@ -26,14 +26,7 @@
                 <img src="{{ url_for('video_feed') }}" alt="Video Stream" class="video-stream">
             </section>
 
-            <section class="card video-section" style="margin-top: 1rem;">
-                <div class="card-header">
-                    <h2>黑白除錯畫面 (鳥瞰視角)</h2>
-                    <span class="badge" style="background: var(--warning-color);">DEBUG</span>
-                </div>
-                <!-- ★ 這裡就是呼叫黑白除錯影像的路由 -->
-                <img src="{{ url_for('video_feed_debug') }}" alt="Debug Stream" class="video-stream" style="border: 2px solid var(--warning-color);">
-            </section>
+
 
 
             <section class="status-grid">
@@ -76,6 +69,19 @@
             </section>
 
             <section class="card">
+                <h2>車道線顏色</h2>
+                <div class="form-group">
+                    <select id="lane-color-select" onchange="applyColor(this.value)" style="width: 100%; padding: 0.5rem; border-radius: 4px; border: 1px solid var(--border-color); background: var(--bg-color); color: var(--text-color);">
+                        <option value="blue">藍色 (Blue)</option>
+                        <option value="white">白色 (White)</option>
+                        <option value="yellow">黃色 (Yellow)</option>
+                        <option value="red">紅色 (Red)</option>
+                        <option value="brown">棕色 (Brown)</option>
+                    </select>
+                </div>
+            </section>
+
+            <section class="card">
                 <h2>車速設定</h2>
                 <div class="form-group">
                     <label>基礎車速：<span id="speed-label">20</span> / 80</label>
@@ -104,7 +110,10 @@
             </section>
 
             <section class="card">
-                <h2>手動控制</h2>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                    <h2 style="margin: 0;">手動控制</h2>
+                    <span style="font-size: 0.85rem; color: var(--text-color); opacity: 0.7;">支援鍵盤 WASD</span>
+                </div>
                 <div class="d-pad">
                     <div></div>
                     <button class="btn-dir"
